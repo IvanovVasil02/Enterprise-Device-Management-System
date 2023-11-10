@@ -2,6 +2,7 @@ package ivanovvasil.u5d5w2Project.services;
 
 import ivanovvasil.u5d5w2Project.entities.Device;
 import ivanovvasil.u5d5w2Project.exceptions.NotFoundException;
+import ivanovvasil.u5d5w2Project.payloads.NewDeviceDTO;
 import ivanovvasil.u5d5w2Project.repositories.DevicesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -22,6 +24,14 @@ public class DevicesService {
   //to save blog post whit runner
   public Device saveDeviceRunner(Device body) {
     return devicesRepository.save(body);
+  }
+
+  public Device save(NewDeviceDTO body) throws IOException {
+    Device newDevice = new Device();
+    newDevice.setDeviceType(body.type());
+    newDevice.setModel(body.model());
+    newDevice.setDeviceStatus(body.deviceStatus());
+    return devicesRepository.save(newDevice);
   }
 
   public List<Device> findAll() {

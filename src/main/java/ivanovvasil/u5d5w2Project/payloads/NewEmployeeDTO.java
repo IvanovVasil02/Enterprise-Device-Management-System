@@ -14,6 +14,7 @@ public record NewEmployeeDTO(
 
         @NotEmpty(message = "The email is a required field")
         @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "The email entered is invalid")
-        String email
+        String email,
+        String profilePicture
 ) {
 }

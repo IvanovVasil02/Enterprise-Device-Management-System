@@ -1,7 +1,7 @@
 package ivanovvasil.u5d5w2Project.exceptions;
 
-import ivanovvasil.u5d2w2.payloads.exceptions.ErorrResponseDTO;
-import ivanovvasil.u5d2w2.payloads.exceptions.ErrorsListResponseDTO;
+import ivanovvasil.u5d5w2Project.payloads.exceptionsDTO.ErrorsListResponseDTO;
+import ivanovvasil.u5d5w2Project.payloads.exceptionsDTO.ErrorsResponseDTO;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,14 +28,15 @@ public class ExceptionsHandler {
 
   @ExceptionHandler(NotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ErorrResponseDTO handleNotFound(NotFoundException e) {
-    return new ErorrResponseDTO(e.getMessage(), new Date());
+  public ErrorsResponseDTO handleNotFound(NotFoundException e) {
+    return new ErrorsResponseDTO(e.getMessage(), new Date());
   }
 
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public ErorrResponseDTO handleGeneric(Exception e) {
+  public ErrorsResponseDTO handleGeneric(Exception e) {
     e.printStackTrace();
-    return new ErorrResponseDTO("we are sorry at the moment we have some internal problems, we are trying to resolve them", new Date());
+    return new ErrorsResponseDTO("we are sorry at the moment we have some internal problems, we are trying to resolve them", new Date());
   }
 }
+

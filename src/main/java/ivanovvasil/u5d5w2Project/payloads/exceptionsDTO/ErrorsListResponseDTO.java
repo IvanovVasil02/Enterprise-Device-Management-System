@@ -1,4 +1,4 @@
-package ivanovvasil.u5d5w2Project.payloads.exceptions;
+package ivanovvasil.u5d5w2Project.payloads.exceptionsDTO;
 
 import java.util.Date;
 import java.util.List;

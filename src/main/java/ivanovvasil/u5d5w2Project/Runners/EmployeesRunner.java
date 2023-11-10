@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @Order(1)
 public class EmployeesRunner implements CommandLineRunner {
   @Autowired
-  private EmployeesService employeesSevice;
+  private EmployeesService employeesService;
 
   @Override
   public void run(String... args) throws Exception {
     for (int i = 0; i < 30; i++) {
       Employee newEmployee = Employee.builder().build();
-      employeesSevice.saveRunnerEmployee(newEmployee);
+      employeesService.saveRunnerEmployee(newEmployee);
     }
   }
 }
