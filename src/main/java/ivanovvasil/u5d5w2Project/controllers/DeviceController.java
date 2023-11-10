@@ -36,7 +36,7 @@ public class DeviceController {
   @GetMapping("")
   public Page<Device> getAll(@RequestParam(defaultValue = "0") int page,
                              @RequestParam(defaultValue = "15") int size,
-                             @RequestParam(defaultValue = "name") String orderBy) {
+                             @RequestParam(defaultValue = "id") String orderBy) {
     return devicesService.findAll(page, size, orderBy);
   }
 

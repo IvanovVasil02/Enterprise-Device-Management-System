@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 
 @Service
 public class DevicesService {
@@ -28,19 +27,14 @@ public class DevicesService {
 
   public Device save(NewDeviceDTO body) throws IOException {
     Device newDevice = new Device();
-    newDevice.setDeviceType(body.type());
+    newDevice.setDeviceType(body.deviceType());
     newDevice.setModel(body.model());
     newDevice.setDeviceStatus(body.deviceStatus());
     return devicesRepository.save(newDevice);
   }
 
-  public List<Device> findAll() {
-    return devicesRepository.findAll();
-  }
-
   public Page<Device> findAll(int page, int size, String orderBy) {
     Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
-
     return devicesRepository.findAll(pageable);
   }
 

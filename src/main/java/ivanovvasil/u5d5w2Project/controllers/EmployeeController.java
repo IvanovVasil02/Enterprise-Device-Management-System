@@ -36,7 +36,7 @@ public class EmployeeController {
   @GetMapping("")
   public Page<Employee> getAll(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "15") int size,
-                               @RequestParam(defaultValue = "name") String orderBy) {
+                               @RequestParam(defaultValue = "id") String orderBy) {
     return employeesService.findAll(page, size, orderBy);
   }
 
