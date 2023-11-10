@@ -1,6 +1,7 @@
 package ivanovvasil.u5d5w2Project.services;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import ivanovvasil.u5d5w2Project.entities.Employee;
 import ivanovvasil.u5d5w2Project.exceptions.BadRequestException;
 import ivanovvasil.u5d5w2Project.exceptions.NotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -70,4 +72,10 @@ public class EmployeesService {
     return employeesRepository.save(found);
   }
 
+  public Employee uploadImg(int id, MultipartFile file) throws IOException {
+    Employee found = this.findById(id);
+    String urlImg = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+    found.setProfilePicture(urlImg);
+    return found;
+  }
 }
