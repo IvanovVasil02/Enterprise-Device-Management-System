@@ -3,6 +3,7 @@ package ivanovvasil.u5d5w2Project.controllers;
 import ivanovvasil.u5d5w2Project.entities.Employee;
 import ivanovvasil.u5d5w2Project.exceptions.BadRequestException;
 import ivanovvasil.u5d5w2Project.payloads.NewEmployeeDTO;
+import ivanovvasil.u5d5w2Project.payloads.NewPutEmployeeDTO;
 import ivanovvasil.u5d5w2Project.services.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,8 +48,17 @@ public class EmployeeController {
   }
 
   @PutMapping("/{id}")
-  public Employee findByIdAndUpdate(@PathVariable int id, @RequestBody Employee body) {
-    return employeesService.findByIdAndUpdate(id, body);
+  public Employee findByIdAndUpdate(@PathVariable int id, @RequestBody @Validated NewPutEmployeeDTO body, BindingResult validation) {
+    if (validation.hasErrors()) {
+      throw new BadRequestException("Empty or not respected fields", validation.getAllErrors());
+    } else {
+      try {
+        return employeesService.findByIdAndUpdate(id, body);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
   }
 
   @PostMapping("/{id}/uploadImg")

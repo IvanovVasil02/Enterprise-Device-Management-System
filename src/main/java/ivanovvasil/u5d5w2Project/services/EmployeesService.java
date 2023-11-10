@@ -6,6 +6,7 @@ import ivanovvasil.u5d5w2Project.entities.Employee;
 import ivanovvasil.u5d5w2Project.exceptions.BadRequestException;
 import ivanovvasil.u5d5w2Project.exceptions.NotFoundException;
 import ivanovvasil.u5d5w2Project.payloads.NewEmployeeDTO;
+import ivanovvasil.u5d5w2Project.payloads.NewPutEmployeeDTO;
 import ivanovvasil.u5d5w2Project.repositories.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -64,11 +65,11 @@ public class EmployeesService {
     employeesRepository.delete(this.findById(id));
   }
 
-  public Employee findByIdAndUpdate(int id, Employee body) throws NotFoundException {
+  public Employee findByIdAndUpdate(int id, NewPutEmployeeDTO body) throws IOException {
     Employee found = this.findById(id);
-    found.setName(body.getName());
-    found.setSurname(body.getSurname());
-    found.setEmail(body.getEmail());
+    found.setName(body.name());
+    found.setSurname(body.surname());
+    found.setEmail(body.email());
     return employeesRepository.save(found);
   }
 
@@ -76,6 +77,7 @@ public class EmployeesService {
     Employee found = this.findById(id);
     String urlImg = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
     found.setProfilePicture(urlImg);
+    employeesRepository.save(found);
     return found;
   }
 }
