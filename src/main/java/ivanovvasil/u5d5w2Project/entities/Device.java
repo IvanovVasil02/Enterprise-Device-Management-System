@@ -1,10 +1,9 @@
 package ivanovvasil.u5d5w2Project.entities;
 
 import com.github.javafaker.Faker;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import ivanovvasil.u5d5w2Project.enums.DeviceStatus;
+import ivanovvasil.u5d5w2Project.enums.DeviceType;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,14 +18,17 @@ public class Device {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  private String name;
-  private String surname;
-  private String email;
+  private DeviceType deviceType;
+  private String Model;
+  private DeviceStatus deviceStatus;
+  @ManyToOne
+  @JoinColumn(name="employee_id")
+  private Employee employee;
 
   public static class DeviceBuilder{
     Faker f = new Faker(Locale.ITALY);
-    private String name = f.name().name();
-    private String surname = f.name().lastName();
-    private String email = f.internet().emailAddress();
+    private DeviceType deviceType = DeviceType.getRandomDeviceType();
+    private String Model = f.team().name();
+    private DeviceStatus deviceStatus = DeviceStatus.getRandomDeviceStatus();
   }
 }
