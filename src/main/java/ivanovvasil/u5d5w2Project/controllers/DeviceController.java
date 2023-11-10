@@ -3,6 +3,7 @@ package ivanovvasil.u5d5w2Project.controllers;
 import ivanovvasil.u5d5w2Project.entities.Device;
 import ivanovvasil.u5d5w2Project.exceptions.BadRequestException;
 import ivanovvasil.u5d5w2Project.payloads.NewDeviceDTO;
+import ivanovvasil.u5d5w2Project.payloads.NewPutDeviceDTO;
 import ivanovvasil.u5d5w2Project.services.DevicesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -46,8 +47,17 @@ public class DeviceController {
   }
 
   @PutMapping("/{id}")
-  public Device findByIdAndUpdate(@PathVariable int id, @RequestBody Device body) {
-    return devicesService.findByIdAndUpdate(id, body);
+  public Device findByIdAndUpdate(@PathVariable int id, @RequestBody @Validated NewPutDeviceDTO body, BindingResult validation) {
+
+    if (validation.hasErrors()) {
+      throw new BadRequestException("Empty or not respected fields", validation.getAllErrors());
+    } else {
+      try {
+        return devicesService.findByIdAndUpdate(id, body);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
   }
 
   @DeleteMapping("/{id}")

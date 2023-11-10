@@ -1,8 +1,11 @@
 package ivanovvasil.u5d5w2Project.services;
 
 import ivanovvasil.u5d5w2Project.entities.Device;
+import ivanovvasil.u5d5w2Project.entities.Employee;
+import ivanovvasil.u5d5w2Project.enums.DeviceStatus;
 import ivanovvasil.u5d5w2Project.exceptions.NotFoundException;
 import ivanovvasil.u5d5w2Project.payloads.NewDeviceDTO;
+import ivanovvasil.u5d5w2Project.payloads.NewPutDeviceDTO;
 import ivanovvasil.u5d5w2Project.repositories.DevicesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +32,7 @@ public class DevicesService {
     Device newDevice = new Device();
     newDevice.setDeviceType(body.deviceType());
     newDevice.setModel(body.model());
-    newDevice.setDeviceStatus(body.deviceStatus());
+    newDevice.setDeviceStatus(DeviceStatus.AVAILABLE);
     return devicesRepository.save(newDevice);
   }
 
@@ -46,12 +49,15 @@ public class DevicesService {
     devicesRepository.delete(this.findById(id));
   }
 
-  public Device findByIdAndUpdate(int id, Device body) throws NotFoundException {
+  public Device findByIdAndUpdate(int id, NewPutDeviceDTO body) throws IOException {
     Device found = this.findById(id);
-    found.setDeviceType(body.getDeviceType());
-    found.setModel(body.getModel());
-    found.setDeviceStatus(body.getDeviceStatus());
-    found.setEmployee(body.getEmployee());
+    if (body.employee() > 0) {
+      Employee employee = employesServices.findById(body.employee());
+      found.setEmployee(employee);
+    }
+    found.setDeviceType(body.deviceType());
+    found.setModel(body.model());
+    found.setDeviceStatus(body.deviceStatus());
     return devicesRepository.save(found);
   }
 }
