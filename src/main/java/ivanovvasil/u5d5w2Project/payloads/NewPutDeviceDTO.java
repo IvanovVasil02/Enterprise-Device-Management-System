@@ -5,11 +5,11 @@ import ivanovvasil.u5d5w2Project.enums.DeviceType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public record NewPutDeviceDTO(@NotNull(message = "The device type is a required field")
+public record NewPutDeviceDTO(@NotNull(message = "The device type field cannot be empty")
                               DeviceType deviceType,
-                              @NotEmpty(message = "The device model is a required field")
+                              @NotEmpty(message = "The device model field cannot be empty")
                               String model,
-                              @NotNull(message = "The device model is a required field")
+                              @NotNull(message = "The device status field cannot be empty")
                               DeviceStatus deviceStatus,
                               int employee
 ) {

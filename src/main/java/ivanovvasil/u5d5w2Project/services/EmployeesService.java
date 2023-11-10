@@ -2,11 +2,14 @@ package ivanovvasil.u5d5w2Project.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import ivanovvasil.u5d5w2Project.entities.Device;
 import ivanovvasil.u5d5w2Project.entities.Employee;
+import ivanovvasil.u5d5w2Project.enums.DeviceStatus;
 import ivanovvasil.u5d5w2Project.exceptions.BadRequestException;
 import ivanovvasil.u5d5w2Project.exceptions.NotFoundException;
 import ivanovvasil.u5d5w2Project.payloads.NewEmployeeDTO;
 import ivanovvasil.u5d5w2Project.payloads.NewPutEmployeeDTO;
+import ivanovvasil.u5d5w2Project.repositories.DevicesRepository;
 import ivanovvasil.u5d5w2Project.repositories.EmployeesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,8 @@ import java.util.List;
 public class EmployeesService {
   @Autowired
   private EmployeesRepository employeesRepository;
+  @Autowired
+  private DevicesRepository devicesRepository;
   @Autowired
   private Cloudinary cloudinary;
 
@@ -62,7 +67,14 @@ public class EmployeesService {
   }
 
   public void findByIdAndDelete(int id) throws NotFoundException {
+    List<Device> devicesList = devicesRepository.findAllByEmployeeId(id);
+    devicesList.forEach(device -> {
+      device.setDeviceStatus(DeviceStatus.AVAILABLE);
+      device.setEmployee(null);
+      devicesRepository.save(device);
+    });
     employeesRepository.delete(this.findById(id));
+
   }
 
   public Employee findByIdAndUpdate(int id, NewPutEmployeeDTO body) throws IOException {
