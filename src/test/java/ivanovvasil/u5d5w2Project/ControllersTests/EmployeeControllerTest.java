@@ -5,6 +5,7 @@ import ivanovvasil.u5d5w2Project.controllers.EmployeeController;
 import ivanovvasil.u5d5w2Project.entities.Employee;
 import ivanovvasil.u5d5w2Project.exceptions.NotFoundException;
 import ivanovvasil.u5d5w2Project.payloads.NewEmployeeDTO;
+import ivanovvasil.u5d5w2Project.payloads.NewPutEmployeeDTO;
 import ivanovvasil.u5d5w2Project.services.EmployeesService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @WebMvcTest(EmployeeController.class)
 public class EmployeeControllerTest {
   private static final String ENDPOINT = "/employees";
-
+  Employee employee = Employee.builder().id(2).name("Vasil").surname("Ivanov").email("vsa@vsa.com").build();
   @Autowired
   private MockMvc mockMvc;
   @Autowired
@@ -71,11 +72,56 @@ public class EmployeeControllerTest {
   @Test
   public void testGetEmployeerReturnOk() throws Exception {
     int employeeId = 2;
-
-    Mockito.when(employeesService.findById(2)).thenReturn(Employee.builder().build());
-
+    Mockito.when(employeesService.findById(2)).thenReturn(employee);
+    String requestBody = objectMapper.writeValueAsString(employee);
     mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT + "/" + employeeId)
-                    .contentType(MediaType.APPLICATION_JSON))
+                    .contentType(MediaType.APPLICATION_JSON).content(requestBody))
             .andExpect(MockMvcResultMatchers.status().isOk()).andDo(print());
   }
+
+  @Test
+  public void testPutEmployersReturnNotFound() throws Exception {
+    int employeeId = 2;
+    NewPutEmployeeDTO newPutEmployeeDTO = new NewPutEmployeeDTO("Vasil", "Ivanov", "vas@vas.com", "picture");
+    String requestBody = objectMapper.writeValueAsString(newPutEmployeeDTO);
+
+    Mockito.when(employeesService.findByIdAndUpdate(2, newPutEmployeeDTO)).thenThrow(NotFoundException.class);
+
+    mockMvc.perform(MockMvcRequestBuilders.put(ENDPOINT + "/" + employeeId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody)).andExpect(MockMvcResultMatchers.status().isNotFound());
+  }
+
+  @Test
+  public void testPutEmployersReturnBadRequest() throws Exception {
+    int employeeId = 2;
+    NewPutEmployeeDTO newPutEmployeeDTO = new NewPutEmployeeDTO("", "Ivanov", "vas@vas.com", "picture");
+    String requestBody = objectMapper.writeValueAsString(newPutEmployeeDTO);
+
+    Mockito.when(employeesService.findByIdAndUpdate(2, newPutEmployeeDTO)).thenThrow(NotFoundException.class);
+
+    mockMvc.perform(MockMvcRequestBuilders.put(ENDPOINT + "/" + employeeId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody)).andExpect(MockMvcResultMatchers.status().isBadRequest());
+  }
+
+  @Test
+  public void testPutEmployersReturn200() throws Exception {
+    int employeeId = 2;
+    NewPutEmployeeDTO newPutEmployeeDTO = new NewPutEmployeeDTO("Vasil2", "Ivanovv", "vas@vas.com", "picture");
+    String requestBody = objectMapper.writeValueAsString(newPutEmployeeDTO);
+    Mockito.when(employeesService.findByIdAndUpdate(2, newPutEmployeeDTO)).thenReturn(employee);
+    mockMvc.perform(MockMvcRequestBuilders.put(ENDPOINT + "/" + employeeId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestBody)).andExpect(MockMvcResultMatchers.status().isOk());
+  }
+
+  @Test
+  public void testDeleteEmployersReturn404() throws Exception {
+    int employeeId = 2;
+    Mockito.doThrow(NotFoundException.class).when(employeesService).findByIdAndDelete(2);
+    mockMvc.perform(MockMvcRequestBuilders.delete(ENDPOINT + "/" + employeeId))
+            .andExpect(MockMvcResultMatchers.status().isNotFound());
+  }
+  
 }
