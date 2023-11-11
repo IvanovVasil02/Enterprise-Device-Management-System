@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class EmployeeController {
     return employeesService.findAll(page, size, orderBy);
   }
 
+
   @GetMapping("/{id}")
   public Employee findById(@PathVariable int id) {
     return employeesService.findById(id);
@@ -55,6 +57,8 @@ public class EmployeeController {
     } else {
       try {
         return employeesService.findByIdAndUpdate(id, body);
+      } catch (MethodArgumentTypeMismatchException e) {
+        throw new BadRequestException("Entered id is invalid");
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
