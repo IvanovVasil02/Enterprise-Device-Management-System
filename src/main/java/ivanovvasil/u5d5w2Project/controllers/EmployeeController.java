@@ -5,6 +5,7 @@ import ivanovvasil.u5d5w2Project.exceptions.BadRequestException;
 import ivanovvasil.u5d5w2Project.payloads.NewEmployeeDTO;
 import ivanovvasil.u5d5w2Project.payloads.NewPutEmployeeDTO;
 import ivanovvasil.u5d5w2Project.services.EmployeesService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class EmployeeController {
 
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
-  public Employee saveEmployee(@RequestBody @Validated NewEmployeeDTO body, BindingResult validation) {
+  public Employee saveEmployee(@RequestBody @Validated @Valid NewEmployeeDTO body, BindingResult validation) {
     if (validation.hasErrors()) {
       throw new BadRequestException("Empty or not respected fields", validation.getAllErrors());
     } else {

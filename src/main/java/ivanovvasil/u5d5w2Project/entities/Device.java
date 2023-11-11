@@ -31,6 +31,5 @@ public class Device {
     Faker f = new Faker(Locale.ITALY);
     private DeviceType deviceType = DeviceType.getRandomDeviceType();
     private String Model = f.team().name();
-    
   }
 }
