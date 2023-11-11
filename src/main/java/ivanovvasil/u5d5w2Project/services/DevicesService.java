@@ -3,6 +3,7 @@ package ivanovvasil.u5d5w2Project.services;
 import ivanovvasil.u5d5w2Project.entities.Device;
 import ivanovvasil.u5d5w2Project.entities.Employee;
 import ivanovvasil.u5d5w2Project.enums.DeviceStatus;
+import ivanovvasil.u5d5w2Project.enums.DeviceType;
 import ivanovvasil.u5d5w2Project.exceptions.NotFoundException;
 import ivanovvasil.u5d5w2Project.payloads.NewDeviceDTO;
 import ivanovvasil.u5d5w2Project.payloads.NewPutDeviceDTO;
@@ -30,7 +31,7 @@ public class DevicesService {
 
   public Device save(NewDeviceDTO body) throws IOException {
     Device newDevice = new Device();
-    newDevice.setDeviceType(body.deviceType());
+    newDevice.setDeviceType(DeviceType.valueOf(body.deviceType()));
     newDevice.setModel(body.model());
     newDevice.setDeviceStatus(DeviceStatus.AVAILABLE);
     return devicesRepository.save(newDevice);
@@ -55,9 +56,9 @@ public class DevicesService {
       Employee employee = employesServices.findById(body.employee());
       found.setEmployee(employee);
     }
-    found.setDeviceType(body.deviceType());
+    found.setDeviceType(DeviceType.valueOf(body.deviceType()));
     found.setModel(body.model());
-    found.setDeviceStatus(body.deviceStatus());
+    found.setDeviceStatus(DeviceStatus.valueOf(body.deviceStatus()));
     return devicesRepository.save(found);
   }
 }
