@@ -2,6 +2,7 @@ package ivanovvasil.u5d5w2Project;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ivanovvasil.u5d5w2Project.controllers.EmployeeController;
+import ivanovvasil.u5d5w2Project.entities.Employee;
 import ivanovvasil.u5d5w2Project.exceptions.NotFoundException;
 import ivanovvasil.u5d5w2Project.payloads.NewEmployeeDTO;
 import ivanovvasil.u5d5w2Project.services.EmployeesService;
@@ -14,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @WebMvcTest(EmployeeController.class)
 public class EmployeeControllerTest {
@@ -63,5 +66,16 @@ public class EmployeeControllerTest {
     mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT + "/" + userId)
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isNotFound());
+  }
+
+  @Test
+  public void testGetEmployeerReturnOk() throws Exception {
+    int employeeId = 2;
+
+    Mockito.when(employeesService.findById(2)).thenReturn(Employee.builder().build());
+
+    mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT + "/" + employeeId)
+                    .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.status().isOk()).andDo(print());
   }
 }
