@@ -8,12 +8,14 @@ import jakarta.persistence.Id;
 import lombok.*;
 
 import java.util.Locale;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Builder(builderClassName = "EmployeeBuilder")
 public class Employee {
   @Id
@@ -24,6 +26,14 @@ public class Employee {
   private String email;
   private String profilePicture;
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Employee employee = (Employee) o;
+    return id == employee.id && Objects.equals(name, employee.name) && Objects.equals(surname, employee.surname) && Objects.equals(email, employee.email) && Objects.equals(profilePicture, employee.profilePicture);
+  }
+  
   public static class EmployeeBuilder {
     Faker f = new Faker(Locale.ITALY);
     private String name = f.name().name();

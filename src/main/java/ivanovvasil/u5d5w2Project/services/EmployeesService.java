@@ -74,7 +74,6 @@ public class EmployeesService {
       devicesRepository.save(device);
     });
     employeesRepository.delete(this.findById(id));
-
   }
 
   public Employee findByIdAndUpdate(int id, NewPutEmployeeDTO body) throws IOException {
