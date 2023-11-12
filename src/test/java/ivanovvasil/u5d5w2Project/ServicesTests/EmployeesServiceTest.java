@@ -21,26 +21,28 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class EmployeesServiceTest {
 
   Faker faker = new Faker(Locale.ITALY);
-  NewEmployeeDTO employeeDTO = new NewEmployeeDTO("Vasil", "Ivanov", "vs@gmail.com", "pic1");
+  NewEmployeeDTO employeeDTO = new NewEmployeeDTO("Vasil", "Ivanov", faker.internet().emailAddress(), "pic1");
   @Autowired
   private EmployeesService employeesService;
 
   @Test
   public void TestSaveEmployeeNotNull() throws IOException {
-    NewEmployeeDTO employeeDTO = new NewEmployeeDTO("Vasil", "Ivanov", faker.internet().emailAddress(), "pic1");
     Employee savedEmploye = employeesService.save(employeeDTO);
     assertNotNull(savedEmploye);
   }
 
   @Test
   public void TestSaveEmployeeReturnEmailAlreadyIsUsed() throws IOException {
-    NewEmployeeDTO employeeDTO = new NewEmployeeDTO("Vasil2", "Ivanov2", "vs@gmail.com", "pic1");
-    Assertions.assertThrows(BadRequestException.class, () -> employeesService.save(employeeDTO));
+    NewEmployeeDTO employeeDTO1 = new NewEmployeeDTO("Vasil", "Ivanov", "vsasa@gmail.com", "pic1");
+    NewEmployeeDTO newemployeeDTO = new NewEmployeeDTO("Vasil2", "Ivanov2", "vsasa@gmail.com", "pic1");
+    Assertions.assertThrows(BadRequestException.class, () -> {
+      employeesService.save(employeeDTO1);
+      employeesService.save(newemployeeDTO);
+    });
   }
 
   @Test
   public void TestFindByIdReturnEmployee() throws IOException {
-    NewEmployeeDTO employeeDTO = new NewEmployeeDTO("Vasil2", "Ivanov2", faker.internet().emailAddress(), "pic1");
     Employee savedEmployee = employeesService.save(employeeDTO);
     Employee foundEmployee = employeesService.findById(savedEmployee.getId());
     Assertions.assertEquals(savedEmployee, foundEmployee);
@@ -48,7 +50,6 @@ public class EmployeesServiceTest {
 
   @Test
   public void TestDeleteReturnNotFoundAfterFindById() throws IOException {
-    NewEmployeeDTO employeeDTO = new NewEmployeeDTO("Vasil2", "Ivanov2", faker.internet().emailAddress(), "pic1");
     Employee savedEmployee = employeesService.save(employeeDTO);
     employeesService.findByIdAndDelete(savedEmployee.getId());
     Assertions.assertThrows(NotFoundException.class, () -> {
@@ -58,7 +59,6 @@ public class EmployeesServiceTest {
 
   @Test
   public void testFindByIdAndUpdateReturnUpdatedEmployee() throws IOException {
-    NewEmployeeDTO employeeDTO = new NewEmployeeDTO("Vasil2", "Ivanov2", faker.internet().emailAddress(), "pic1");
     Employee savedEmployee = employeesService.save(employeeDTO);
     NewPutEmployeeDTO updateEmployeeDTO = new NewPutEmployeeDTO("Vasil223", "Ivanov2", faker.internet().emailAddress(), "pic1");
     Employee updatedEmployee = employeesService.findByIdAndUpdate(savedEmployee.getId(), updateEmployeeDTO);
@@ -66,5 +66,8 @@ public class EmployeesServiceTest {
     Assertions.assertNotEquals(savedEmployee, updatedEmployee);
   }
 
-
+//  @Test
+//  public void testUploadImgReturnUpdatedEmployee() {
+//
+//  }
 }

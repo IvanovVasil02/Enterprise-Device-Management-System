@@ -55,4 +55,5 @@ public class DevicesServiceTest {
     Assertions.assertNotNull(updatedDevice);
     Assertions.assertNotEquals(savedDevice, updatedDevice);
   }
+  
 }

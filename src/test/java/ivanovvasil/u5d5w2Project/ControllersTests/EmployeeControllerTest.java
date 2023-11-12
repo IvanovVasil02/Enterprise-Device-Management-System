@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -123,5 +124,16 @@ public class EmployeeControllerTest {
     mockMvc.perform(MockMvcRequestBuilders.delete(ENDPOINT + "/" + employeeId))
             .andExpect(MockMvcResultMatchers.status().isNotFound());
   }
-  
+
+  @Test
+  public void testUploadImgReturn200Ok() throws Exception {
+    int employeeId = 2;
+    String endpoint = ENDPOINT + "/" + employeeId + "/uploadImg";
+    MockMultipartFile pictureToUpload = new MockMultipartFile(
+            "profileImg", "img1.jpg", "image/jpeg", "img1.jpg".getBytes());
+    mockMvc.perform(MockMvcRequestBuilders.multipart(endpoint)
+                    .file(pictureToUpload))
+            .andExpect(MockMvcResultMatchers.status().isOk());
+  }
+
 }
