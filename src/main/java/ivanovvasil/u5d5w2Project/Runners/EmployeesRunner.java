@@ -1,5 +1,6 @@
 package ivanovvasil.u5d5w2Project.Runners;
 
+import ivanovvasil.u5d5w2Project.entities.Employee;
 import ivanovvasil.u5d5w2Project.services.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -14,9 +15,9 @@ public class EmployeesRunner implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-//    for (int i = 0; i < 30; i++) {
-//      Employee newEmployee = Employee.builder().build();
-//      employeesService.saveRunnerEmployee(newEmployee);
-//    }
+    for (int i = 0; i < 30; i++) {
+      Employee newEmployee = Employee.builder().build();
+      employeesService.saveRunnerEmployee(newEmployee);
+    }
   }
 }
