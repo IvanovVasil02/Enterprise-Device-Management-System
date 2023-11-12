@@ -14,6 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Builder(builderClassName = "DeviceBuilder")
 public class Device {
   @Id

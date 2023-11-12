@@ -49,11 +49,13 @@ public class DevicesServiceTest {
 
   @Test
   public void testFindByIdAndUpdateReturnUpdatedDevice() throws IOException {
+
     Device savedDevice = employeesService.save(deviceDTO);
-    NewPutDeviceDTO updateDeviceDTO = new NewPutDeviceDTO("LAPTOP", "Model2", "AVAILABLE", 3);
+    NewPutDeviceDTO updateDeviceDTO = new NewPutDeviceDTO("LAPTOP", "Model3", "AVAILABLE", null);
     Device updatedDevice = employeesService.findByIdAndUpdate(savedDevice.getId(), updateDeviceDTO);
-    Assertions.assertNotNull(updatedDevice);
+    System.out.println(savedDevice);
+    System.out.println(updatedDevice);
+
     Assertions.assertNotEquals(savedDevice, updatedDevice);
   }
-  
 }

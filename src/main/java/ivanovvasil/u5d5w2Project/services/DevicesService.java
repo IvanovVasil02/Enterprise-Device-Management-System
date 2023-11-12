@@ -52,13 +52,13 @@ public class DevicesService {
 
   public Device findByIdAndUpdate(int id, NewPutDeviceDTO body) throws IOException {
     Device found = this.findById(id);
-    if (body.employee() > 0) {
-      Employee employee = employesServices.findById(body.employee());
-      found.setEmployee(employee);
-    }
     found.setDeviceType(DeviceType.valueOf(body.deviceType()));
     found.setModel(body.model());
     found.setDeviceStatus(DeviceStatus.valueOf(body.deviceStatus()));
+    if (body.employee() != null) {
+      Employee employee = employesServices.findById(body.employee());
+      found.setEmployee(employee);
+    }
     return devicesRepository.save(found);
   }
 }
