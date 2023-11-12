@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Locale;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -26,6 +27,14 @@ public class Device {
   @ManyToOne
   @JoinColumn(name = "employee_id")
   private Employee employee;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Device device = (Device) o;
+    return id == device.id && deviceType == device.deviceType && Objects.equals(Model, device.Model) && deviceStatus == device.deviceStatus && Objects.equals(employee, device.employee);
+  }
 
   public static class DeviceBuilder {
     Faker f = new Faker(Locale.ITALY);
