@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +38,12 @@ public class ExceptionsHandler {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ErrorsResponseDTO handleMethodArgumentNotValidException(BadRequestException e) {
     return new ErrorsResponseDTO(e.getMessage(), new Date());
+  }
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorsResponseDTO handleMethodArgumentTypeMismatchExceptio(MethodArgumentTypeMismatchException e) {
+    return new ErrorsResponseDTO("Invalid path param entered", new Date());
   }
 
   @ExceptionHandler(Exception.class)
