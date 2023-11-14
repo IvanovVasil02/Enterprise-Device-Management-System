@@ -4,7 +4,7 @@ import ivanovvasil.u5d5w2Project.payloads.exceptionsDTO.ErrorsListResponseDTO;
 import ivanovvasil.u5d5w2Project.payloads.exceptionsDTO.ErrorsResponseDTO;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,23 +27,23 @@ public class ExceptionsHandler {
     }
   }
 
-
   @ExceptionHandler(NotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ErrorsResponseDTO handleNotFound(NotFoundException e) {
     return new ErrorsResponseDTO(e.getMessage(), new Date());
   }
 
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ErrorsResponseDTO handleMethodArgumentNotValidException(BadRequestException e) {
-    return new ErrorsResponseDTO(e.getMessage(), new Date());
-  }
-
+  //if a client places an invalid path param on an endpoint
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorsResponseDTO handleMethodArgumentTypeMismatchExceptio(MethodArgumentTypeMismatchException e) {
     return new ErrorsResponseDTO("Invalid path param entered", new Date());
+  }
+
+  @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+  @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+  public ErrorsResponseDTO handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+    return new ErrorsResponseDTO(e.getMessage(), new Date());
   }
 
   @ExceptionHandler(Exception.class)
