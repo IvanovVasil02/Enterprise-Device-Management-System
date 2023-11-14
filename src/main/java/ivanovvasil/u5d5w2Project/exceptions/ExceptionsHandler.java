@@ -40,12 +40,14 @@ public class ExceptionsHandler {
     return new ErrorsResponseDTO("Invalid path param entered", new Date());
   }
 
+  //if a client places an invalid path param on an endpoint
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
   @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
   public ErrorsResponseDTO handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
     return new ErrorsResponseDTO(e.getMessage(), new Date());
   }
 
+  //if a client is attempting to execute a prohibited method on a certain endpoint
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ErrorsResponseDTO handleGeneric(Exception e) {

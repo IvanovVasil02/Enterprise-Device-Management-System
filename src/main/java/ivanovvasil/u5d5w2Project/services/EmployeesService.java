@@ -52,7 +52,7 @@ public class EmployeesService {
     return employeesRepository.save(newEmployee);
   }
 
-  //findALl for employees runner
+  //findALl for device runner
   public List<Employee> findAll() {
     return employeesRepository.findAll();
   }
