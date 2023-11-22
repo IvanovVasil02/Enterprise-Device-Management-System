@@ -65,9 +65,4 @@ public class EmployeesServiceTest {
     Assertions.assertNotNull(updatedEmployee);
     Assertions.assertNotEquals(savedEmployee, updatedEmployee);
   }
-
-//  @Test
-//  public void testUploadImgReturnUpdatedEmployee() {
-//
-//  }
 }
