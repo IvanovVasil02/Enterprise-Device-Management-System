@@ -1,154 +1,162 @@
 # Enterprise Device Management System
 
-Questo progetto offre una soluzione completa per la gestione e l'assegnazione dei dispositivi aziendali (come smartphone, tablet e laptop) ai dipendenti, utilizzando Spring Boot per il backend e un database relazionale per la persistenza dei dati. Consente operazioni CRUD sui dipendenti e sui dispositivi, gestisce lo stato di assegnazione dei dispositivi e supporta l'upload di immagini profilo per i dipendenti.
+This project provides a comprehensive solution for managing and assigning company devices (such as smartphones, tablets, and laptops) to employees, using Spring Boot for the backend and a relational database for data persistence. It enables CRUD operations on employees and devices, manages the assignment status of devices, and supports profile image uploads for employees.
+
+## Features
+
+- **Employee Management**: Create, read, update, and delete employee information, including username, first name, last name, and email.
+- **Device Management**: Administer devices with the ability to assign them to employees, mark them as available, under maintenance, or decommissioned.
+- **Device Assignment**: Allows the assignment of devices to employees through a specific endpoint.
+- **Image Upload**: Enables employees to upload their profile images.
 
 
-## Caratteristiche
+## Technologies Used
 
-- **Gestione Dipendenti**: Crea, leggi, aggiorna ed elimina informazioni sui dipendenti, inclusi username, nome, cognome e email.
-- **Gestione Dispositivi**: Amministra i dispositivi con la possibilità di assegnarli ai dipendenti, segnarli come disponibili, in manutenzione o dismessi.
-- **Assegnazione Dispositivi**: Permette l'assegnazione dei dispositivi ai dipendenti attraverso un endpoint specifico.
-- **Upload Immagini**: Consente ai dipendenti di caricare le proprie immagini profilo.
-
-
-## Tecnologie Utilizzate
-
-- **Spring Boot**: Framework per lo sviluppo di applicazioni Java con servizi web RESTful.
-- **Database Relazionale (come MySQL, PostgreSQL)**: Per la persistenza dei dati relativi a dipendenti e dispositivi.
-- **Hibernate**: ORM utilizzato per facilitare l'integrazione tra Java e il database relazionale.
-- **Spring Data JPA**: Per semplificare l'accesso ai dati nel database.
-- **Spring Web MVC**: Per costruire e gestire i servizi web RESTful.
+- **Spring Boot**: Framework for developing Java applications with RESTful web services.
+- **Relational Database** (e.g., MySQL, PostgreSQL): For persistence of employee and device data.
+- **Hibernate**: ORM used to facilitate integration between Java and the relational database.
+- **Spring Data JPA**: To simplify data access in the database.
+- **Spring Web MVC**: To build and manage RESTful web services.
 
 
-## Come iniziare
+## Getting Started
 
-Queste istruzioni ti forniranno una copia del progetto in esecuzione sul tuo computer locale per scopi di sviluppo e test.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes
 
 
-## Prerequisiti
+## Prerequisites
 
-- JDK 1.8 o superiore
+- JDK 1.8 or higher
 - Maven 3.3+
-- Un'istanza di database relazionale (MySQL/PostgreSQL)
-- Un account Cloudinary per l'upload delle immagini
+- An instance of a relational database (MySQL/PostgreSQL)
+- A Cloudinary account for image uploads
 
 
-## Installazione
-1. Clona il repository:
+## Setup
 
-***git clone https://github.com/tuo-username/sistema-gestione-dispositivi-aziendali.git***
+As this project is solely a backend, there is no frontend available to execute a run. All endpoint testing has been conducted using Postman.
 
-2. Nella cartella principale del progetto, crea un file application.properties (o modifica quello esistente) aggiungendo le seguenti configurazioni per il database e Cloudinary:
-   ***spring.datasource.url=jdbc:your_database_url
-      spring.datasource.username=your_database_username
-      spring.datasource.password=db_password
-      spring.jpa.hibernate.ddl-auto=update
+1. **Clone the Repository**: Clone the repository to a local directory using the following command:
 
-      cloudinary.cloud_name=cloudinary_name
-      cloudinary.api_key=cloudinary_key
-      cloudinary.api_secret=cloudinary_secret***
-   
-   Assicurati di sostituire your_database_url, your_database_username, db_password, cloudinary_name, cloudinary_key, e cloudinary_secret con i tuoi dati effettivi.
+***git clone https://github.com/your-username/enterprise-device-management-system.git***
 
-4. Compila e avvia l'applicazione:
-   ***mvn clean install
-mvn spring-boot:run***
+1. **Configure Environment Variables**:
+
+  - Create a file named `application.properties` in the project's main directory.
+  - Add the following variables to the `application.properties` file and replace the variable values with your credentials:
+
+  ***spring.datasource.url=jdbc:your_database_url
+  spring.datasource.username=your_database_username
+  spring.datasource.password=db_password
+  spring.jpa.hibernate.ddl-auto=update
+
+  cloudinary.cloud_name=cloudinary_name
+  cloudinary.api_key=cloudinary_key
+  cloudinary.api_secret=cloudinary_secret***
+
+  Be sure to replace `your_database_url`, `your_database_username`, `db_password`, `cloudinary_name`, `cloudinary_key`, and `cloudinary_secret` with your actual data.
+
+2. Compile and Run the Application
 
 
-## Utilizzo
+## Usage
 
-Una volta avviato il servizio, puoi interagire con esso utilizzando qualsiasi client HTTP (come Postman o curl) per inviare richieste ai vari endpoint esposti dal servizio.
+Once the service is running, you can interact with it using any HTTP client (such as Postman or curl) to send requests to the various endpoints exposed by the service.
 
-### Endpoint Dispositivi
+For detailed information on the available endpoints and their usage, please refer to the sections below.
 
- **Salva un Dispositivo**:
+## Error Handling
+The service handles various error situations, returning appropriate HTTP status codes and error messages for invalid data, not found resources, or constraint violations.
 
-- Metodo: POST
+## Endpoint Documentation
+### Device Endpoints
+
+**Save a Device**:
+
+  - **Method**: POST
   - **URL**: /devices
-  - **Descrizione**: Crea un nuovo dispositivo.
-  - **Corpo della Richiesta**: Un oggetto JSON che rappresenta il nuovo dispositivo.
-  - **Risposta**: Restituisce il dispositivo appena creato.
+  - **Description**: Create a new device.
+  - **Request Body**: JSON object representing the new device.
+  - **Response**: Returns the newly created device.
 
-- **Recupera tutti i Dispositivi**:
+**Get All Devices**:
 
-  - **Metodo**: GET
+  - **Method**: GET
   - **URL**: /devices
-  - **Descrizione**: Recupera tutti i dispositivi presenti nel sistema.
-  - **Parametri Query**:
-    - `page` (opzionale): Numero della pagina desiderata (default: 0)
-    - `size` (opzionale): Dimensione della pagina (default: 15)
-    - `orderBy` (opzionale): Campo su cui ordinare i dispositivi (default: id)
+  - **Description**: Retrieves all devices in the system.
+  - **Query** Parameters:
+    - `page` (optional): Desired page number (default: 0)
+    - `size` (optional): Page size (default: 15)
+    - `orderBy` (optional): Field to order devices by (default: id)
 
-- **Recupera un Dispositivo per ID**:
+**Get a Device by ID**:
 
-  - **Metodo**: GET
-  - **URL**: /devices/{id}
-  - **Descrizione**: Recupera un dispositivo specifico tramite il suo ID.
+- **Method**: GET
+- **URL**: /devices/{id}
+- **Description**: Retrieves a specific device by its ID.
 
-- **Aggiorna un Dispositivo per ID**:
+**Update a Device by ID**:
 
-  - **Metodo**: PUT
-  - **URL**: /devices/{id}
-  - **Descrizione**: Aggiorna le informazioni di un dispositivo esistente.
-  - **Corpo della Richiesta**: Un oggetto JSON che rappresenta le nuove informazioni del dispositivo.
-  - **Risposta**: Restituisce il dispositivo aggiornato.
-  
-- **Elimina un Dispositivo per ID**:
+- **Method**: PUT
+- **URL**: /devices/{id}
+- **Description**: Updates information for an existing device.
+- **Request Body**: JSON object representing the new device information.
+- **Response**: Returns the updated device.
 
-  - **Metodo**: DELETE
-  - **URL**: /devices/{id}
-  - **Descrizione**: Elimina un dispositivo dal sistema.
+**Delete a Device by ID**:
 
-### Endpoint Dipendenti
+- **Method**: DELETE
+- **URL**: /devices/{id}
+- **Description**: Deletes a device from the system.
+- **Employee** Endpoints
 
-- **Salva un Dipendente**:
+**Save an Employee**:
 
-  - **Metodo**: POST
-  - **URL**: /employees
-  - **Descrizione**: Crea un nuovo dipendente.
-  - **Corpo della Richiesta**: Un oggetto JSON che rappresenta il nuovo dipendente.
-  - **Risposta**: Restituisce il dipendente appena creato.
-  
-- **Recupera tutti i Dipendenti**:
+- **Method**: POST
+- **URL**: /employees
+- **Description**: Creates a new employee.
+- **Request Body**: JSON object representing the new employee.
+- **Response**: Returns the newly created employee.
 
-  - **Metodo**: GET
-  - **URL**: /employees
-  - **Descrizione**: Recupera tutti i dipendenti presenti nel sistema.
-  - **Parametri Query**:
-    - `page` (opzionale): Numero della pagina desiderata (default: 0)
-    - `size` (opzionale): Dimensione della pagina (default: 15)
-    - `orderBy` (opzionale): Campo su cui ordinare i dipendenti (default: id)
+**Get All Employees**:
 
-- **Recupera un Dipendente per ID**:
+- **Method**: GET
+- **URL**: /employees
+- **Description**: Retrieves all employees in the system.
+- **Query** Parameters:
+  - `page` (optional): Desired page number (default: 0)
+  - `size` (optional): Page size (default: 15)
+  - `orderBy` (optional): Field to order employees by (default: id)
 
-  - **Metodo**: GET
-  - **URL**: /employees/{id}
-  - **Descrizione**: Recupera un dipendente specifico tramite il suo ID.
+**Get an Employee by ID**:
 
-- **Aggiorna un Dipendente per ID**:
+- **Method**: GET
+- **URL**: /employees/{id}
+- **Description**: Retrieves a specific employee by their ID.
 
-  - **Metodo**: PUT
-  - **URL**: /employees/{id}
-  - **Descrizione**: Aggiorna le informazioni di un dipendente esistente.
-  - **Corpo della Richiesta**: Un oggetto JSON che rappresenta le nuove informazioni del dipendente.
-  - **Risposta**: Restituisce il dipendente aggiornato.
+**Update an Employee by ID**:
 
-- **Carica un'Immagine Profilo per un Dipendente**:
+- **Method**: PUT
+- **URL**: /employees/{id}
+- **Description**: Updates information for an existing employee.
+- **Request Body**: JSON object representing the new employee information.
+- **Response**: Returns the updated employee.
 
-  - **Metodo**: POST
-  - **URL**: /employees/{id}/uploadImg
-  - **Descrizione**: Carica un'immagine profilo per un dipendente specifico.
-  - **Parametri**:
-    `id`: ID del dipendente.
-    `profileImg`: File dell'immagine da caricare.
-  - **Risposta**: Restituisce il dipendente con l'immagine profilo aggiornata.
-    
-- **Elimina un Dipendente per ID**:
+**Upload a Profile Image for an Employee**:
 
-  - **Metodo**: DELETE
-  - **URL**: /employees/{id}
-  - **Descrizione**: Elimina un dipendente dal sistema.
+- **Method**: POST
+- **URL**: /employees/{id}/uploadImg
+- **Description**: Uploads a profile image for a specific employee.
+- **Parameters**:
+  - `id`: Employee ID.
+  - `profileImg`: Image file to upload.
+  - `Response`: Returns the employee with the updated profile image.
 
-## Gestione Errori
+**Delete an Employee by ID**:
 
-Il servizio gestisce varie situazioni di errore, restituendo appropriati status code HTTP e messaggi di errore in caso di dati non validi, risorse non trovate, o violazioni di vincoli.
+- **Method**: DELETE
+- **URL**: /employees/{id}
+- **Description**: Deletes an employee from the system.
+
+## Acknowledgments
+Thank you for visiting and exploring this project! If you have any questions or feedback, feel free to reach out.
