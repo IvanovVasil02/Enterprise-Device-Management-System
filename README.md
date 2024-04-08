@@ -38,21 +38,21 @@ As this project is solely a backend, there is no frontend available to execute a
 
 1. **Clone the Repository**: Clone the repository to a local directory using the following command:
 
-*** git clone https://github.com/your-username/enterprise-device-management-system.git ***
+``` git clone https://github.com/your-username/enterprise-device-management-system.git ```
 
 1. **Configure Environment Variables**:
 
   - Create a file named `application.properties` in the project's main directory.
   - Add the following variables to the `application.properties` file and replace the variable values with your credentials:
 
-  ***spring.datasource.url=jdbc:your_database_url
+  ```spring.datasource.url=jdbc:your_database_url
   spring.datasource.username=your_database_username
   spring.datasource.password=db_password
   spring.jpa.hibernate.ddl-auto=update
 
   cloudinary.cloud_name=cloudinary_name
   cloudinary.api_key=cloudinary_key
-  cloudinary.api_secret=cloudinary_secret***
+  cloudinary.api_secret=cloudinary_secret```
 
   Be sure to replace `your_database_url`, `your_database_username`, `db_password`, `cloudinary_name`, `cloudinary_key`, and `cloudinary_secret` with your actual data.
 
