@@ -1,4 +1,4 @@
-# Sistema di Gestione Dispositivi Aziendali
+# Enterprise Device Management System
 
 Questo progetto offre una soluzione completa per la gestione e l'assegnazione dei dispositivi aziendali (come smartphone, tablet e laptop) ai dipendenti, utilizzando Spring Boot per il backend e un database relazionale per la persistenza dei dati. Consente operazioni CRUD sui dipendenti e sui dispositivi, gestisce lo stato di assegnazione dei dispositivi e supporta l'upload di immagini profilo per i dipendenti.
 
