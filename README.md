@@ -38,7 +38,7 @@ As this project is solely a backend, there is no frontend available to execute a
 
 1. **Clone the Repository**: Clone the repository to a local directory using the following command:
 
-``` git clone https://github.com/your-username/enterprise-device-management-system.git ```
+```git clone https://github.com/your-username/enterprise-device-management-system.git```
 
 1. **Configure Environment Variables**:
 
@@ -52,7 +52,8 @@ As this project is solely a backend, there is no frontend available to execute a
 
   cloudinary.cloud_name=cloudinary_name
   cloudinary.api_key=cloudinary_key
-  cloudinary.api_secret=cloudinary_secret```
+  cloudinary.api_secret=cloudinary_secret
+  ```
 
   Be sure to replace `your_database_url`, `your_database_username`, `db_password`, `cloudinary_name`, `cloudinary_key`, and `cloudinary_secret` with your actual data.
 
